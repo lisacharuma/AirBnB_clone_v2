@@ -10,6 +10,7 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
+from os import getenv
 
 
 class HBNBCommand(cmd.Cmd):
@@ -118,13 +119,37 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
-            print("** class doesn't exist **")
-            return
-        new_instance = HBNBCommand.classes[args]()
-        storage.save()
+        else:
+            """Split arguments into a list"""
+            args = args.split(' ')
+            if args[0] not in HBNBCommand.classes:
+                print("** class doesn't exist **")
+                return
+        """Create specified class instance"""
+        new_instance = HBNBCommand.classes[args[0]]()
+
+        """Loop thru remaining elements & split 2 attr & val"""
+        for element in args[1:]:
+            attr = element.split('=')
+            """If val is a string escape quotes, replace _"""
+            if attr[1][0] == '"':
+                attr[1] = attr[1][1:-1].replace('"', '\\"')
+                attr[1] = attr[1].replace("_", " ")
+            elif attr[1].isdecimal is True:
+                attr[1] = Int(attr[1])
+            else:
+                try:
+                    float(attr[1])
+                except ValueError:
+                    pass
+            setattr(new_instance, attr[0], attr[1])
         print(new_instance.id)
-        storage.save()
+        """Check storage type and save instance accordingly"""
+        if getenv('HBNB_TYPE_STORAGE') == 'db':
+            storage.new(new_instance)
+            storage.save()
+        else:
+            new_instance.save()
 
     def help_create(self):
         """ Help information for the create method """
