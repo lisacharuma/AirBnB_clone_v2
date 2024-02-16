@@ -2,9 +2,7 @@
 """
     Write a script that starts a Flask web application:
 """
-
 from flask import Flask
-
 
 app = Flask(__name__)
 
@@ -17,6 +15,12 @@ def hello_hbnb():
 @app.route('/hbnb', strict_slashes=False)
 def hbnb():
     return 'HBNB'
+
+
+@app.route('/c/<text>', strict_slashes=False)
+def c_route(text):
+    formatted_text = text.replace('_', ' ')
+    return "C {}".format(formatted_text)
 
 
 if __name__ == '__main__':
