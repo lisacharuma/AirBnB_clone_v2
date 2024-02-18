@@ -18,7 +18,7 @@ sudo echo "
 	<head>
 	</head>
 	<body>
-		Thanks for visiting
+		Holberton School
 	</body>
 </html>" | sudo tee /data/web_static/releases/test/index.html
 
