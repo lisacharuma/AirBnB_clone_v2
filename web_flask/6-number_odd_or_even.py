@@ -40,7 +40,7 @@ def number_template(n):
     return render_template('5-number_template.html', n=n)
 
 
-@app.route('number_odd_or_even/<int:n>')
+@app.route('/number_odd_or_even/<int:n>')
 def number_odd_or_even_route(n):
     return render_template('6-number_odd_or_even.html', n=n)
 
