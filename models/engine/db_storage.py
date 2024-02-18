@@ -5,6 +5,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from os import getenv
 from models.base_model import Base
 
+
 class DBStorage:
     """DBStorage class"""
     __engine = None
@@ -53,8 +54,12 @@ class DBStorage:
             self.__session.delete(obj)
 
     def reload(self):
-        """Create all tables in the database and create the current database session"""
+        """Create tables in database create current database session"""
         Base.metadata.create_all(self.__engine)
         Session = scoped_session(sessionmaker(bind=self.__engine,
                                               expire_on_commit=False))
         self.__session = Session()
+
+    def close(self):
+        """ call remove() method on the private session """
+        self.__session.remove()
