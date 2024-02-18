@@ -20,10 +20,13 @@ sudo echo "
 	<body>
 		Holberton School
 	</body>
-</html>" | sudo tee /data/web_static/releases/test/index.html
+</html>" | sudo tee -a /data/web_static/releases/test/index.html >/dev/null
 
 #creating a symbolic link
-sudo ln -s -f /data/web_static/releases/test/ /data/web_static/current
+if [ -L /data/web_static/current ]; then
+	    sudo rm /data/web_static/current
+fi
+sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 
 #granting ownership to ubuntu user and group
 sudo chown -R ubuntu:ubuntu /data/
