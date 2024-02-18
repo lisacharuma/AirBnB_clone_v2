@@ -28,7 +28,7 @@ sudo ln -s -f /data/web_static/releases/test/ /data/web_static/current
 #granting ownership to ubuntu user and group
 sudo chown -R ubuntu:ubuntu /data/
 
-making nginx serve content from current
+#making nginx serve content from current
 sudo sed -i '/listen 80 default_server/a location /hbnb_static { alias /data/web_static/current/;}' /etc/nginx/sites-enabled/default
 
 sudo service nginx restart
