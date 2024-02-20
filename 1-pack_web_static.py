@@ -2,6 +2,7 @@
 from fabric.api import local
 from time import strftime
 
+
 def do_pack():
     """Archives the contents of web_static folder"""
     fname = strftime("%Y%m%d%H%M%S")
