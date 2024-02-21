@@ -9,12 +9,13 @@ env.hosts = ["54.157.160.208", "54.160.121.210"]
 env.user = 'ubuntu'
 env.key_filename = '~/.ssh/id_rsa'
 
+
 def do_deploy(archive_path):
     """deploys archive to servers"""
     try:
         if not (path.exists(archive_path)):
             return False
-        #path exists, upload
+        # path exists, upload
         put(archive_path, '/tmp/')
 
         # create target directory
@@ -25,19 +26,21 @@ def do_deploy(archive_path):
         # uncompress archive and delete .tgz
         run('sudo tar -xzf /tmp/web_static_{}.tgz -C \
                 /data/web_static/releases/web_static_{}/'
-                                    .format(timestamp, timestamp))
+            .format(timestamp, timestamp))
 
-        # remove archive
+        # remove arc
+        hive
         run('sudo rm /tmp/web_static_{}.tgz'.format(timestamp))
 
         # move contents into host web_static
         run('sudo mv /data/web_static/releases/web_static_{}/web_static/* \
-                /data/web_static/releases/web_static_{}/'.format(timestamp, timestamp))
+                /data/web_static/releases/web_static_{}/'.format(timestamp,
+            timestamp))
 
         # remove extraneous web_static dir
         run('sudo rm -rf /data/web_static/releases/\
                 web_static_{}/web_static'
-                                    .format(timestamp))
+            .format(timestamp))
 
         # delete pre-existing sym link
         run('sudo rm -rf /data/web_static/current')
@@ -46,7 +49,7 @@ def do_deploy(archive_path):
         run('sudo ln -s /data/web_static/releases/\
                 web_static_{}/ /data/web_static/current'.format(timestamp))
 
-    except:
+    except Exception as e:
         return False
     # return True on success
     return True
